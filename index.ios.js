@@ -65,7 +65,7 @@ class FooterButton extends React.Component {
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: "PocketTorah Trope",
+    title: "Home",
   };
 
   render() {
