@@ -378,39 +378,6 @@ class PlayViewScreen extends React.Component {
 
       tropeWordIndex = tropeWordIndex + verseArray[i].length;
       }
-      /*
-
-
-        for (var q = 0; q < verseArray[i].length; q++) {
-          currentVerse.push(<View style={[styles.text, {fontSize: 36, textAlign: 'right'}]}>
-
-            <TouchableOpacity key={tropeWordIndex} onPress={() => {
-              this.changeAudioTime(tropeWordIndex)
-            }}>
-              <Text
-                style={tropeWordIndex == this.state.activeWordIndex ? [styles.word,{color: 'red'}] : [styles.word,{color: 'black'}]}>{verseArray[i][q]} {tropeWordIndex}</Text>
-            </TouchableOpacity></View>
-          )
-          tropeWordIndex++;
-        }
-
-
-
-// ////////////////////////////////////////////
-
-
-
-
-       var words = verseArray.map((phrase, q) =>
-       <Text style={[styles.word, {fontSize: 36, textAlign: 'right'}]}>🔊 {
-
-       phrase.map((word, i) =>
-       <Text style={i == this.state.activeWordIndex ? [{color:'red'}]:[{color:'black'}]}>{word} {tropeWordIndex}</Text>)
-       //phrase.join(" ")
-
-       }</Text>
-       );
-       */
 
       return (
         <View style={{flex: 1}}>
@@ -448,9 +415,6 @@ class PlayViewScreen extends React.Component {
           <ScrollView>
             {words}
 
-            <Text>{this.state.activeWordIndex}</Text>
-            <Text>{this.state.currentAudioTime}</Text>
-
           </ScrollView>
           <View style={styles.footer}>
             {this.state.audioPlaying ?
@@ -466,113 +430,6 @@ class PlayViewScreen extends React.Component {
 }
 reactMixin(PlayViewScreen.prototype, TimerMixin);
 
-
-class TextFile extends React.Component {
-  render() {
-
-
-    return (
-      <View style={styles.text}><Verses changeAudioTime={this.props.changeAudioTime} tikkunFlag={this.props.tikkunFlag}
-                                        textSizeMultiplier={this.props.textSizeMultiplier}
-                                        currentAudioTime={this.props.currentAudioTime}
-                                        activeWordIndex={this.props.activeWordIndex} labels={this.props.labels}
-                                        book={selectedBook} transBook={selectedTrans}
-                                        chapterStart={this.props.chapterStartIndex}
-                                        verseStart={this.props.verseStartIndex} length={this.props.sectionLength}
-                                        length2={this.props.length2} hafStart2={this.props.hafStart2}/></View>
-    )
-
-
-  }
-}
-
-
-class Verses extends React.Component {
-
-  getVerseWords(verse, labels, curWordIndex, curChapterIndex, curVerseIndex,) {
-    if (this.props.tikkunFlag) {
-
-      var words = verse.w.map((word, i) =>
-        <View style={styles.text}>
-          {i == 0 ? <Text style={styles.verseNum}>{curChapterIndex + 1}:{curVerseIndex + 1}</Text> : null}
-          <TouchableOpacity onPress={() => {
-            this.props.changeAudioTime(curWordIndex + i)
-          }}>
-            <Text
-              style={parseFloat(this.props.labels[curWordIndex + i]) < this.props.currentAudioTime && parseFloat(this.props.labels[curWordIndex + i + 1]) > this.props.currentAudioTime ? [styles.stam, styles.active, {fontSize: 30 * this.props.textSizeMultiplier}] : [styles.stam, {fontSize: 30 * this.props.textSizeMultiplier}]}>
-              {verse.w[i].replace(/\//g, '').replace(/[\u0591-\u05C7]/g, "")}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-
-      return words;
-    }
-
-    else {
-      var words = verse.w.map((word, i) =>
-        <View style={styles.text}>
-          {i == 0 ? <Text style={styles.verseNum}>{curChapterIndex + 1}:{curVerseIndex + 1}</Text> : null}
-          <TouchableOpacity key={curWordIndex + i } onPress={() => {
-            this.props.changeAudioTime(curWordIndex + i)
-          }}>
-            <Text
-              style={parseFloat(this.props.labels[curWordIndex + i]) < this.props.currentAudioTime && parseFloat(this.props.labels[curWordIndex + i + 1]) > this.props.currentAudioTime ? [styles.word, styles.active, {fontSize: 36 * this.props.textSizeMultiplier}] : [styles.word, {fontSize: 36 * this.props.textSizeMultiplier}]}>
-              {verse.w[i].replace(/\//g, '')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-
-      return words;
-
-    }
-  }
-
-
-  render() {
-
-    var verseText = [];
-    var curChapter = this.props.chapterStart;
-    var curVerse = this.props.verseStart;
-    var book = this.props.book;
-    var transBook = this.props.transBook;
-    var lastWordIndex = 0;
-    for (q = 0; q < this.props.length; q++) {
-      if (!book.c[curChapter].v[curVerse]) {
-        curChapter = curChapter + 1;
-        curVerse = 0;
-      }
-      verseText.push(
-        this.getVerseWords(book.c[curChapter].v[curVerse], this.props.activeWordIndex, lastWordIndex, curChapter, curVerse)
-      );
-
-      lastWordIndex = lastWordIndex + book.c[curChapter].v[curVerse].w.length;
-      curVerse = curVerse + 1;
-    }
-
-    if (this.props.length2) {
-      var curChapter = parseInt(this.props.hafStart2.split(':')[0]) - 1;
-      var curVerse = parseInt(this.props.hafStart2.split(':')[1]) - 1;
-      for (z = 0; z < this.props.length2; z++) {
-        if (!book.c[curChapter].v[curVerse]) {
-          curChapter = curChapter + 1;
-          curVerse = 0;
-        }
-        verseText.push(
-          this.getVerseWords(book.c[curChapter].v[curVerse], this.props.activeWordIndex, lastWordIndex, curChapter, curVerse)
-        );
-
-        lastWordIndex = lastWordIndex + book.c[curChapter].v[curVerse].w.length;
-        curVerse = curVerse + 1;
-      }
-
-    }
-
-    return (<View style={styles.text}>{verseText}</View>);
-
-  }
-}
 
 
 const PocketTorah = StackNavigator({
