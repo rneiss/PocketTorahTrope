@@ -330,7 +330,7 @@ class PlayViewScreen extends React.Component {
           }}>
             <Text
               style={parseFloat(this.state.labels[curWordIndex + i]) < this.state.currentAudioTime && parseFloat(this.state.labels[curWordIndex + i + 1]) > this.state.currentAudioTime ? [styles.word, styles.active, {fontSize: 30 * this.state.textSizeMultiplier}] : [styles.word, {fontSize: 30 * this.state.textSizeMultiplier}]}>
-              {verse[i].replace(/\//g, '').replace(/[\u0591-\u05C7]/g, "")}
+              {verse[i].replace(/\//g, '')}
             </Text>
           </TouchableOpacity>
         </View>
